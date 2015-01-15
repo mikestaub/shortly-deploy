@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/shortlyDB');
+var host = process.env.MONGO_URI || 'mongodb://localhost/shortlyDB';
 
-// mongoose.connect('mongodb://localhost/shortlyDB');
+mongoose.connect(host);
 
 module.exports.db = mongoose.connection;
