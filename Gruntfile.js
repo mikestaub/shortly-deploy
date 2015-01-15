@@ -89,7 +89,7 @@ module.exports = function(grunt) {
     shell: {
       prodServer: {
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -129,16 +129,19 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
-      console.log('in prod')
       // add your production server task here
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
-
+  grunt.registerTask('deploy', function(n){
+    if(grunt.option('prod')) {
+      // TODO: how to handle password?
+    } else {
+      grunt.task.run([ 'build' ]);
+      grunt.task.run([ 'server-dev' ]);
+    }
+  });
 
 };
