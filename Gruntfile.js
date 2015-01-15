@@ -8,13 +8,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
-        'app/models/*.js',
-        'app/collections/*.js',
-        'app/config.js',
-        'lib/*.js',
-        'public/client/*.js',
-        'server-config.js',
-        'server.js'
+        'public/client/*.js'
         ],
         dest: 'public/dist/production.js'
       }
@@ -135,6 +129,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
+      console.log('in prod')
       // add your production server task here
     } else {
       grunt.task.run([ 'server-dev' ]);

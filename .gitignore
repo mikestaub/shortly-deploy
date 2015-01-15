@@ -32,3 +32,4 @@ node_modules
 
 azure.err
 iisnode.yml
+app/db/*
