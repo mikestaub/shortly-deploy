@@ -2,7 +2,22 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    clean: {
+      dist: ['public/dist']
+    },
     concat: {
+      dist: {
+        src: [
+        'app/models/*.js',
+        'app/collections/*.js',
+        'app/config.js',
+        'lib/*.js',
+        'public/client/*.js',
+        'server-config.js',
+        'server.js'
+        ],
+        dest: 'public/dist/production.js'
+      }
     },
 
     mochaTest: {
@@ -21,12 +36,23 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      build: {
+        src: 'public/dist/production.js',
+        dest: 'public/dist/production.min.js'
+      }
     },
 
     jshint: {
-      files: [
-        // Add filespec list here
-      ],
+      files: {
+        src: ['app/models/*.js',
+              'app/collections/*.js',
+              'app/config.js',
+              'lib/*.js',
+              'public/client/*.js',
+              'server-config.js',
+              'server.js',
+              'Gruntfile.js']
+      },
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
@@ -38,6 +64,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'public',
+          src: ['style.css', '!*.min.css'],
+          dest: 'public/dist',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -68,6 +103,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
@@ -94,6 +130,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'clean', 'concat', 'uglify', 'cssmin', 'jshint'
   ]);
 
   grunt.registerTask('upload', function(n) {
